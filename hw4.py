@@ -140,22 +140,3 @@ T = 20000
 w = sgd(train_data, train_labels, c, lr, T)
 acc = calc_accuracy(w, test_data, test_labels)
 print('Accuracy on test Set : ', acc)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    

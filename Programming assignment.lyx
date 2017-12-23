@@ -1,0 +1,249 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Programming Assignment
+\end_layout
+
+\begin_layout Section
+SGD
+\end_layout
+
+\begin_layout Description
+(a) The average accuracy on the 
+\emph on
+validation set
+\emph default
+, as a function of 
+\begin_inset Formula $\eta_{0}$
+\end_inset
+
+ is plotted in the figure below.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 1_a.jpg
+	scale 70
+
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+As one can see the best value of 
+\begin_inset Formula $\eta_{0}$
+\end_inset
+
+ is 0.1 .
+ We see that for large values of 
+\begin_inset Formula $\eta_{0}$
+\end_inset
+
+ , the accuracy reduces drastically and is almost pseudo-random.
+ This can be explained by the fact that if 
+\begin_inset Formula $\eta_{0}$
+\end_inset
+
+ is large we are relying too heavily on a single random sample, which is
+ generally a bad idea.
+\end_layout
+
+\begin_layout Description
+(b) The average accuracy on the 
+\emph on
+validation set
+\emph default
+, as a function of 
+\begin_inset Formula $C$
+\end_inset
+
+, with 
+\begin_inset Formula $\eta_{0}=0\text{.1}$
+\end_inset
+
+ is plotted in the figure below.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 1_b.jpg
+	scale 70
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+As one can see the best value of 
+\begin_inset Formula $C$
+\end_inset
+
+ is 
+\begin_inset Formula $C=100$
+\end_inset
+
+ , this can be easily explained by the fact that we don't want to give a
+ large value to 
+\begin_inset Formula $C$
+\end_inset
+
+ because it represent only a single random point, and on the contrary we
+ don't want 
+\begin_inset Formula $C$
+\end_inset
+
+ to be too small , because then 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+ will barely change.
+\end_layout
+
+\begin_layout Description
+(c) The resulting 
+\begin_inset Formula $w$
+\end_inset
+
+, when trained with the 3-tuple 
+\begin_inset Formula $(\eta_{0}=0\text{.1}$
+\end_inset
+
+ , 
+\begin_inset Formula $C=100$
+\end_inset
+
+, 
+\begin_inset Formula $T=20000)$
+\end_inset
+
+ and plotted as image is shown in the image below.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 1_c.jpg
+	scale 70
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+ One can clearly see that points that have non-zero values near the origin
+ will be multiplied by very large weights.
+ This makes a lot of sense because 
+\begin_inset Formula $8$
+\end_inset
+
+ usually pass through the origin as opposed to 
+\begin_inset Formula $0$
+\end_inset
+
+ , and hence will be classified as 
+\begin_inset Formula $1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+(d) The accuracy of the best classifier on the 
+\emph on
+test set
+\emph default
+ is 
+\begin_inset Formula $99.129\%$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Back-Propagation
+\end_layout
+
+\end_body
+\end_document

@@ -60,15 +60,16 @@ class Network(object):
                        for b, nb in zip(self.biases, nabla_b)]
 
     def backprop(self, x, y):
-        #TODO: Your backprop implementation.
-        
+        """ Given x,y feed forward, calc loss and backprop through the network
+            Returning db, dw - the gradients of the loss w.r to each b and w
+        """
         #feed forward
-        pre_activations = [] #z 1-L
-        activations = [] #a 0 - L
-        #pre_activations.append(x)
+        pre_activations = []  # z 1-L
+        activations = []  # a 0 - L
+        # pre_activations.append(x)
         activations.append(x)
         layer = 0
-        for w,b in zip(self.weights, self.biases):
+        for w, b in zip(self.weights, self.biases):
             x = w.dot(x) + b
             pre_activations.append(x)
             if not (layer == len(self.weights) - 1):
@@ -93,16 +94,10 @@ class Network(object):
         
         for i, delta in enumerate(deltas[::-1]):
             active = activations[i]
-            cdw = delta.transpose().dot(active) # TODO MAYBE BUG
+            cdw = delta.transpose().dot(active)  # TODO MAYBE BUG
             dw.append(cdw)
             
-        return db,dw
-        
-        
-        
-        
-        
-            
+        return db, dw
 
     def one_label_accuracy(self, data):
         """Return accuracy of network on data with numeric labels"""
