@@ -76,23 +76,19 @@ class Network(object):
             activations.append(x)
             layer += 1
 
-
-        delta = self.loss_derivative_wr_output_activations(activations[-1], y)
         deltas = []
+        delta = self.loss_derivative_wr_output_activations(activations[-1], y) # delta_L
         deltas.append(delta)
-        
 
         for i, preact in enumerate(pre_activations[::-1]):
             if not i == 0:
                 delta_l1 = deltas[i-1]
                 weight = self.weights[-i]
                 sigma_tag = sigmoid_derivative(preact)
-                print ' Delta L1' , delta_l1.shape, ' sigma_tag ', sigma_tag.shape, ' weight ', weight.shape
                 delta_l = (weight.transpose().dot(delta_l1)) * sigma_tag
                 deltas.append(delta_l)
         
         dw = []
-        db = []
         db = deltas[::-1]
         
         for i, delta in enumerate(deltas[::-1]):
