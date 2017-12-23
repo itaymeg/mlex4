@@ -48,7 +48,7 @@ class Network(object):
         """Update the network's weights and biases by applying
         stochastic gradient descent using backpropagation to a single mini batch.
         The ``mini_batch`` is a list of tuples ``(x, y)``."""
-        nabla_b = [np.zeros(b.shape) for b in self.biases]
+#        nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
         for x, y in mini_batch:
             delta_nabla_b, delta_nabla_w = self.backprop(x, y)
@@ -61,6 +61,52 @@ class Network(object):
 
     def backprop(self, x, y):
         #TODO: Your backprop implementation.
+        
+        #feed forward
+        pre_activations = [] #z 1-L
+        activations = [] #a 0 - L
+        #pre_activations.append(x)
+        activations.append(x)
+        layer = 0
+        for w,b in zip(self.weights, self.biases):
+            x = w.dot(x) + b
+            pre_activations.append(x)
+            if not (layer == len(self.weights) - 1):
+                x = sigmoid(x)
+            activations.append(x)
+            layer += 1
+
+
+        delta = self.loss_derivative_wr_output_activations(activations[-1], y)
+        deltas = []
+        deltas.append(delta)
+        
+
+        for i, preact in enumerate(pre_activations[::-1]):
+            if not i == 0:
+                delta_l1 = deltas[i-1]
+                weight = self.weights[-i]
+                sigma_tag = sigmoid_derivative(preact)
+                print ' Delta L1' , delta_l1.shape, ' sigma_tag ', sigma_tag.shape, ' weight ', weight.shape
+                delta_l = (weight.transpose().dot(delta_l1)) * sigma_tag
+                deltas.append(delta_l)
+        
+        dw = []
+        db = []
+        db = deltas[::-1]
+        
+        for i, delta in enumerate(deltas[::-1]):
+            active = activations[i]
+            cdw = delta.transpose().dot(active) # TODO MAYBE BUG
+            dw.append(cdw)
+            
+        return db,dw
+        
+        
+        
+        
+        
+            
 
     def one_label_accuracy(self, data):
         """Return accuracy of network on data with numeric labels"""
