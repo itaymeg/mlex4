@@ -44,7 +44,7 @@ def sgd(samples, labels, c, lr, T):
         idx = np.random.randint(0, samples.shape[0])
         current_lr = lr/(i+1)
         if labels[idx] * w.dot(samples[idx]) < 1: # yi*w*xi
-            w = (1 - current_lr)*w + lr*c*labels[idx]*samples[idx]
+            w = (1 - current_lr)*w + current_lr*c*labels[idx]*samples[idx]
         else:
             w = (1- current_lr) * w
     return w
@@ -88,12 +88,13 @@ plt.xlabel('n0')
 plt.ylabel('Average Accuracy')
 plt.title('Accuracy as a function of n0')
 plt.savefig('1_a.jpg')
+plt.show()
     
 
 #b
     
 T = 1000
-lr = 1
+lr = best_lr
 corrects = {}
 for _ in range(10):
     for c in [10**power for power in range(-5, 5, 1)]:
@@ -117,6 +118,7 @@ plt.xlabel('c')
 plt.ylabel('Average Accuracy')
 plt.title('Accuracy as a function of c')
 plt.savefig('1_b.jpg')
+plt.show()
 
 
 #c
@@ -128,7 +130,7 @@ w = sgd(train_data, train_labels, c, lr, T)
 plt.imshow(w.reshape(28, 28))
 plt.title('Image representing the W')
 plt.savefig('1_c.jpg')
-
+plt.show()
 
 #d
     
