@@ -22,6 +22,7 @@ class Network(object):
         layer is assumed to be an input layer, and by convention we
         won't set any biases for those neurons, since biases are only
         ever used in computing the outputs from later layers."""
+        self.current_db = np
         self.num_layers = len(sizes)
         self.sizes = sizes
         self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
@@ -38,7 +39,8 @@ class Network(object):
         n = len(training_data)
         # train_acc = []
         # train_loss = []
-        test_acc = []
+        # test_acc = []
+        euc_norms = []
         for j in tqdm(range(epochs)):
             random.shuffle(list(training_data))
             mini_batches = [
@@ -46,12 +48,28 @@ class Network(object):
                 for k in range(0, n, mini_batch_size)]
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, learning_rate)
+            db_norms = []
+            for i, dbi in enumerate(self.current_db):
+                norm = np.linalg.norm(dbi)
+                norm = norm / float(len(training_data))
+                db_norms.append(norm)
+            euc_norms.append(db_norms)
+        # for xe, ye in zip(range(epochs), euc_norms)
+        #     plt.scatter([xe]*len(ye), ye)
+        # plt.xticks(range(epochs))
+        plt.plot(range(epochs), euc_norms)
+        plt.xlabel('Epoch')
+        plt.ylabel('Euclidean Norms')
+        plt.savefig('deucnorms.jpg')
+        plt.show()
+
+
             # train_acc.append(self.one_hot_accuracy(training_data))
             # train_loss.append(self.loss(training_data))
-            test_acc.append(self.one_label_accuracy(test_data))
+            # test_acc.append(self.one_label_accuracy(test_data))
 
             #print ("Epoch {0} test accuracy: {1}".format(j, self.one_label_accuracy(test_data)))
-
+        print("Epoch Final test accuracy: {0}".format(self.one_label_accuracy(test_data)))
         # tacc, = plt.plot(range(epochs), train_acc, label='Train Accuracy', marker=(1,0))
         # plt.legend(handles=[tacc])
         # plt.xlabel('Epoch')
@@ -64,12 +82,12 @@ class Network(object):
         # plt.ylabel('Loss')
         # plt.savefig('trainloss.jpg')
         # plt.show()
-        tstacc, = plt.plot(range(epochs), test_acc, label='Test Accuracy', marker=(3,0))
-        plt.legend(handles=[tstacc])
-        plt.xlabel('Epoch')
-        plt.ylabel('Accuracy')
-        plt.savefig('testacc_c.jpg')
-        plt.show()
+        # tstacc, = plt.plot(range(epochs), test_acc, label='Test Accuracy', marker=(3,0))
+        # plt.legend(handles=[tstacc])
+        # plt.xlabel('Epoch')
+        # plt.ylabel('Accuracy')
+        # plt.savefig('testacc_c.jpg')
+        # plt.show()
 
 
 
@@ -125,7 +143,7 @@ class Network(object):
             active = activations[i]
             cdw = delta.dot(active.transpose())
             dw.append(cdw)
-            
+        self.current_db = db
         return db, dw
 
     def one_label_accuracy(self, data):
