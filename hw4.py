@@ -123,8 +123,8 @@ plt.show()
 
 #c
 
-c = 1
-lr = 1
+c = best_c
+lr = best_lr
 T = 20000
 w = sgd(train_data, train_labels, c, lr, T)
 plt.imshow(w.reshape(28, 28))

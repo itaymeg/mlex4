@@ -5,6 +5,7 @@ network.py
 import random
 import numpy as np
 import math
+import helper
 
 class Network(object):
 
@@ -48,7 +49,7 @@ class Network(object):
         """Update the network's weights and biases by applying
         stochastic gradient descent using backpropagation to a single mini batch.
         The ``mini_batch`` is a list of tuples ``(x, y)``."""
-#        nabla_b = [np.zeros(b.shape) for b in self.biases]
+        nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
         for x, y in mini_batch:
             delta_nabla_b, delta_nabla_w = self.backprop(x, y)
@@ -66,11 +67,11 @@ class Network(object):
         #feed forward
         pre_activations = []  # z 1-L
         activations = []  # a 0 - L
-        # pre_activations.append(x)
+        #pre_activations.append(x)
         activations.append(x)
         layer = 0
         for w, b in zip(self.weights, self.biases):
-            x = w.dot(x) + b
+            x = w.dot(x) + b # linear
             pre_activations.append(x)
             if not (layer == len(self.weights) - 1):
                 x = sigmoid(x)
@@ -91,10 +92,10 @@ class Network(object):
         
         dw = []
         db = deltas[::-1]
-        
+
         for i, delta in enumerate(deltas[::-1]):
             active = activations[i]
-            cdw = delta.transpose().dot(active)  # TODO MAYBE BUG
+            cdw = delta.dot(active.transpose())
             dw.append(cdw)
             
         return db, dw
