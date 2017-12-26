@@ -29,15 +29,15 @@ class Network(object):
                         for x, y in zip(sizes[:-1], sizes[1:])]
 
     def SGD(self, training_data, epochs, mini_batch_size, learning_rate,
-            test_data, plot = False):
+            test_data):
         """Train the neural network using mini-batch stochastic
         gradient descent.  The ``training_data`` is a list of tuples
         ``(x, y)`` representing the training inputs and the desired
         outputs.  """
         print("Initial test accuracy: {0}".format(self.one_label_accuracy(test_data)))
         n = len(training_data)
-        train_acc = []
-        train_loss = []
+        # train_acc = []
+        # train_loss = []
         test_acc = []
         for j in tqdm(range(epochs)):
             random.shuffle(list(training_data))
@@ -46,28 +46,29 @@ class Network(object):
                 for k in range(0, n, mini_batch_size)]
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, learning_rate)
-            train_acc.append(self.one_hot_accuracy(training_data))
-            test_acc.append(self.one_hot_accuracy(test_data))
-            train_loss.append(self.loss(training_data))
+            # train_acc.append(self.one_hot_accuracy(training_data))
+            # train_loss.append(self.loss(training_data))
+            test_acc.append(self.one_label_accuracy(test_data))
+
             #print ("Epoch {0} test accuracy: {1}".format(j, self.one_label_accuracy(test_data)))
 
-        tacc, = plt.plot(range(epochs), train_acc, label='Train Accuracy', marker=(1,0))
-        plt.legend(handles=[tacc])
-        plt.xlabel('Epoch')
-        plt.ylabel('Accuracy')
-        plt.savefig('trainacc.jpg')
-        plt.show()
-        tlss, = plt.plot(range(epochs), train_loss, label='Train Loss', marker=(2,0))
-        plt.legend(handles=[tlss])
-        plt.xlabel('Epoch')
-        plt.ylabel('Loss')
-        plt.savefig('trainloss.jpg')
-        plt.show()
+        # tacc, = plt.plot(range(epochs), train_acc, label='Train Accuracy', marker=(1,0))
+        # plt.legend(handles=[tacc])
+        # plt.xlabel('Epoch')
+        # plt.ylabel('Accuracy')
+        # plt.savefig('trainacc.jpg')
+        # plt.show()
+        # tlss, = plt.plot(range(epochs), train_loss, label='Train Loss', marker=(2,0))
+        # plt.legend(handles=[tlss])
+        # plt.xlabel('Epoch')
+        # plt.ylabel('Loss')
+        # plt.savefig('trainloss.jpg')
+        # plt.show()
         tstacc, = plt.plot(range(epochs), test_acc, label='Test Accuracy', marker=(3,0))
         plt.legend(handles=[tstacc])
         plt.xlabel('Epoch')
         plt.ylabel('Accuracy')
-        plt.savefig('testacc.jpg')
+        plt.savefig('testacc_c.jpg')
         plt.show()
 
 
