@@ -4,16 +4,25 @@ from __future__ import print_function
 
 from tensorflow.examples.tutorials.mnist import input_data
 import tensorflow as tf
+from tqdm import tqdm
 
 from conv_net import deepnn
 
 learning_rate = 0.5
 mnist = input_data.read_data_sets('/tmp/tensorflow/mnist/input_data', one_hot=True)
+n_hidden_size = 100
 
 x = tf.placeholder(tf.float32, [None, 784])
 W = tf.Variable(tf.random_normal(([784, 10]), stddev=0.1))
 b = tf.Variable(tf.random_normal(([10]), stddev=0.1))
+# W1 = tf.Variable(tf.random_normal(([784, n_hidden_size])))
+# W2 = tf.Variable(tf.random_normal(([n_hidden_size, 10])))
+# b1 = tf.Variable(tf.random_normal(([n_hidden_size])))
+# b2 = tf.Variable(tf.random_normal(([10])))
 
+# z1 = tf.matmul(x, W1) + b1
+# a1 = tf.nn.relu(z1)
+# y_pred = tf.matmul(a1, W2) + b2
 # Output tensor.
 y_pred = tf.matmul(x, W) + b
 
@@ -34,7 +43,7 @@ sess = tf.InteractiveSession()
 tf.global_variables_initializer().run()
 
 # Train
-for _ in range(3000):
+for _ in tqdm(range(3000)):
 	batch_xs, batch_ys = mnist.train.next_batch(200)
 	sess.run(train_step, feed_dict={x: batch_xs, y: batch_ys})
 	if _ % 100 == 0:
